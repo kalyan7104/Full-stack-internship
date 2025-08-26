@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import SearchForm from '@/components/SearchForm';
 import RepositoryGrid from '@/components/RepositoryGrid';
+import Pagination from '@/components/Pagination';
 import { Repository } from '@/components/RepositoryCard';
 import { githubService } from '@/services/githubService';
 import { Button } from '@/components/ui/button';
@@ -13,24 +14,36 @@ const Index = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [hasSearched, setHasSearched] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+  const [totalCount, setTotalCount] = useState(0);
+  const [hasNextPage, setHasNextPage] = useState(false);
+  const [hasPrevPage, setHasPrevPage] = useState(false);
+  const [currentKeyword, setCurrentKeyword] = useState('');
   const { toast } = useToast();
 
-  const handleSearch = async (keyword: string) => {
+  const handleSearch = async (keyword: string, page: number = 1) => {
     setIsLoading(true);
     setError(null);
     setHasSearched(true);
+    setCurrentKeyword(keyword);
 
     try {
       const response = await githubService.searchRepositories({
         query: keyword,
-        page: 1,
+        page,
         perPage: 12,
         sort: 'stars',
         order: 'desc'
       });
 
       setRepositories(response.items);
-      
+      setTotalPages(response.totalPages);
+      setTotalCount(response.total_count);
+      setHasNextPage(response.hasNextPage);
+      setHasPrevPage(response.hasPrevPage);
+      setCurrentPage(response.currentPage); // <-- use the value from response
+
       if (response.items.length === 0) {
         toast({
           title: "No results found",
@@ -40,7 +53,7 @@ const Index = () => {
       } else {
         toast({
           title: "Search completed & saved",
-          description: `Found ${response.items.length} repositories for "${keyword}" and saved to database`,
+          description: `Found ${response.total_count} repositories for "${keyword}" and saved to database`,
           variant: "default"
         });
       }
@@ -48,7 +61,6 @@ const Index = () => {
       const errorMessage = err instanceof Error ? err.message : 'An unexpected error occurred';
       setError(errorMessage);
       setRepositories([]);
-      
       toast({
         title: "Search failed",
         description: errorMessage,
@@ -56,6 +68,12 @@ const Index = () => {
       });
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handlePageChange = (page: number) => {
+    if (currentKeyword) {
+      handleSearch(currentKeyword, page);
     }
   };
 
@@ -97,6 +115,21 @@ const Index = () => {
             error={error}
             hasSearched={hasSearched}
           />
+          
+          {/* Pagination */}
+          {hasSearched && !isLoading && !error && repositories.length > 0 && (
+            <div className="mt-8">
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+                hasNextPage={hasNextPage}
+                hasPrevPage={hasPrevPage}
+                totalItems={totalCount}
+                itemsPerPage={12}
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>

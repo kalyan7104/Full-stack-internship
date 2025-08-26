@@ -4,17 +4,19 @@ This is a full-stack web application built as part of Digital Bevy’s coding as
 
 **Features**
 
-Search form to enter a keyword.
-
-Fetches data from [Public API Name].
-
-Stores search results in [Database: MySQL / PostgreSQL / MongoDB].
-
-Displays stored results in a simple, styled dashboard.
-
-Error handling and pagination implemented.
-
-Hosted online for quick access.
+✅ Search form to enter a keyword with real-time results
+✅ Fetches data from GitHub REST API
+✅ Stores search results in Supabase (PostgreSQL) database
+✅ Displays stored results in a modern, styled dashboard
+✅ **NEW: Pagination for search results and dashboard**
+✅ **NEW: Advanced filtering and sorting in dashboard**
+✅ **NEW: Search functionality within stored repositories**
+✅ **NEW: Language-based filtering**
+✅ **NEW: Topics list with popularity counts**
+✅ **NEW: Dashboard statistics and analytics**
+✅ **NEW: Debounced search for better performance**
+✅ Error handling and loading states
+✅ Responsive design for all devices
 
 **Tech Stack for this Project:**
 

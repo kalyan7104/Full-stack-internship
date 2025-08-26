@@ -22,16 +22,18 @@ const SearchForm = ({ onSearch, isLoading }: SearchFormProps) => {
   return (
     <Card className="w-full max-w-2xl mx-auto shadow-card bg-gradient-card border-0">
       <CardContent className="p-8">
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold mb-4">
-            GitHub Repository Explorer
-          </h1>
-          <p className="text-muted-foreground text-lg">
-            Discover and explore GitHub repositories by keyword
-          </p>
-        </div>
+          <div className="text-center mb-8">
+            <h1 className="text-4xl font-bold mb-4 bg-gradient-hero bg-clip-text text-transparent">
+              GitHub Repository Explorer
+            </h1>
+            <p className="text-muted-foreground text-lg">
+              Discover and explore GitHub repositories by keyword
+            </p>
+          </div>
+        
         <form onSubmit={handleSubmit} className="flex gap-4">
           <div className="relative flex-1">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-5 w-5" />
             <Input
               type="text"
               placeholder="Search repositories (e.g., 'react', 'typescript', 'machine learning')"

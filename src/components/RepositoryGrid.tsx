@@ -66,7 +66,7 @@ const RepositoryGrid = ({ repositories, isLoading, error, hasSearched }: Reposit
     <div className="space-y-6">
       <div className="text-center">
         <p className="text-muted-foreground">
-          Found {repositories.length} repositories
+          Showing {repositories.length} repositories
         </p>
       </div>
       
