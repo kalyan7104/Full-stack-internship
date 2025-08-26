@@ -9,9 +9,7 @@ export default defineConfig(({ mode }) => ({
     host: "::",
     port: 3000,
   },
-  preview: {
-    allowedHosts: ["full-stack-internship.onrender.com"],
-  },
+
   plugins: [
     react(),
     mode === 'development' &&
